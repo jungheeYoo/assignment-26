@@ -4,8 +4,8 @@ import FormInput from '@/components/form-input';
 export default function Login() {
   async function handleForm(formData: FormData) {
     'use server';
-    console.log(formData.get('email'), formData.get('password'));
-    console.log('서버에서 실행 됨!');
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('로그인 됨!');
   }
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
@@ -34,7 +34,7 @@ export default function Login() {
           required
           errors={[]}
         />
-        <FormButton loading={false} text="Log in" />
+        <FormButton text="Log in" />
       </form>
     </div>
   );
