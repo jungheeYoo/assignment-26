@@ -5,11 +5,12 @@ import { useFormStatus } from 'react-dom';
 
 interface FormButtonProps {
   text: string;
-  success: boolean | undefined;
+  success: boolean;
 }
 
 export default function FormButton({ text, success }: FormButtonProps) {
   const { pending } = useFormStatus();
+
   return (
     <div>
       <button
@@ -18,6 +19,7 @@ export default function FormButton({ text, success }: FormButtonProps) {
       >
         {pending ? 'Loading...' : text}
       </button>
+
       {success && (
         <div className="w-full flex items-center justify-start bg-green-500 text-black font-medium rounded-xl text-center h-10 mt-3 px-5">
           <span>
