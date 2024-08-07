@@ -1,3 +1,4 @@
+// assignment-27
 export const USERNAME_MIN_LENGTH = 5;
 export const USERNAME_MIN_LENGTH_ERROR =
   'Username should be at least 5 characters long.';
