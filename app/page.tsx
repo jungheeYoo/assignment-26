@@ -7,6 +7,7 @@ import { useFormState } from 'react-dom';
 import { handleForm } from './actions';
 import { EnvelopeIcon, KeyIcon, UserIcon } from '@heroicons/react/24/solid';
 import { PASSWORD_MIN_LENGTH } from '@/lib/constants';
+import '@/lib/db';
 
 export default function Login() {
   const [state, action] = useFormState(handleForm, null);
@@ -39,7 +40,7 @@ export default function Login() {
           type="password"
           placeholder="Password"
           required
-          minLength={PASSWORD_MIN_LENGTH}
+          // minLength={PASSWORD_MIN_LENGTH}
           errors={state?.fieldErrors.password}
           icon={<KeyIcon className="w-4 h-4 text-gray-400" />}
         />
