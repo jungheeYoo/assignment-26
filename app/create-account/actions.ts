@@ -1,4 +1,6 @@
 'use server';
+
+import bcrypt from 'bcrypt';
 import {
   PASSWORD_MIN_LENGTH,
   PASSWORD_REGEX,
@@ -6,9 +8,9 @@ import {
   USERNAME_MIN_LENGTH,
   USERNAME_MIN_LENGTH_ERROR,
 } from '@/lib/constants';
+import db from '@/lib/db';
 import { z } from 'zod';
 
-const checkUsername = (username: string) => !username.includes('potato');
 const checkPasswords = ({
   password,
   confirm_password,
@@ -16,6 +18,30 @@ const checkPasswords = ({
   password: string;
   confirm_password: string;
 }) => password === confirm_password;
+
+const checkUniqueUsername = async (username: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      username: username,
+    },
+    select: {
+      id: true,
+    },
+  });
+  return !Boolean(user);
+};
+
+const checkUniqueEmail = async (email: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      email: email,
+    },
+    select: {
+      id: true,
+    },
+  });
+  return !Boolean(user);
+};
 
 const formSchema = z
   .object({
@@ -58,6 +84,17 @@ export async function createAccount(prevState: any, formData: FormData) {
 
     return result.error.flatten();
   } else {
-    console.log(result.data);
+    const hashedPassword = await bcrypt.hash(result.data.password, 12);
+    const user = await db.user.create({
+      data: {
+        username: result.data.username,
+        email: result.data.email,
+        password: hashedPassword,
+      },
+      select: {
+        id: true,
+      },
+    });
+    console.log(user);
   }
 }
