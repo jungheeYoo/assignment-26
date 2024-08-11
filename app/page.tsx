@@ -1,51 +1,27 @@
-// assignment-27
-'use client';
-
-import FormButton from '@/components/form-btn';
-import FormInput from '@/components/form-input';
-import { useFormState } from 'react-dom';
-import { handleForm } from './actions';
-import { EnvelopeIcon, KeyIcon, UserIcon } from '@heroicons/react/24/solid';
-import { PASSWORD_MIN_LENGTH } from '@/lib/constants';
+import Link from 'next/link';
 import '@/lib/db';
 
-export default function Login() {
-  const [state, action] = useFormState(handleForm, null);
-  const success = state?.success ?? false;
-
+export default function Home() {
   return (
-    <div className="flex flex-col gap-10 mt-10 py-8 px-6">
-      <div className="flex flex-col items-center gap-2 *:font-medium">
-        <h1 className="text-2xl">🔥</h1>
+    <div className="flex flex-col items-center justify-between min-h-screen p-6">
+      <div className="my-auto flex flex-col items-center gap-2 *:font-medium">
+        <span className="text-9xl">🔥</span>
+        <h1 className="text-4xl mt-6">Welcom!!</h1>
       </div>
-      <form action={action} className="flex flex-col gap-3">
-        <FormInput
-          name="email"
-          type="email"
-          placeholder="Email"
-          required
-          errors={state?.fieldErrors.email}
-          icon={<EnvelopeIcon className="w-4 h-4 text-gray-400" />}
-        />
-        <FormInput
-          name="username"
-          type="text"
-          placeholder="Username"
-          required
-          errors={state?.fieldErrors.username}
-          icon={<UserIcon className="w-4 h-4 text-gray-400" />}
-        />
-        <FormInput
-          name="password"
-          type="password"
-          placeholder="Password"
-          required
-          // minLength={PASSWORD_MIN_LENGTH}
-          errors={state?.fieldErrors.password}
-          icon={<KeyIcon className="w-4 h-4 text-gray-400" />}
-        />
-        <FormButton text="Log in" success={success} />
-      </form>
+      <div className="flex flex-col items-center gap-3 w-full">
+        <Link
+          href="/create-account"
+          className="w-full flex justify-center items-center bg-gray-200 text-black font-medium rounded-full  h-12 hover:bg-gray-300 transition-colors hover:text-white mt-5"
+        >
+          시작하기
+        </Link>
+        <div className="flex gap-2">
+          <span>이미 계정이 있나요?</span>
+          <Link href="/login" className="hover:underline">
+            로그인
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
