@@ -1,6 +1,6 @@
-// assignment-27
 'use server';
 
+import bcrypt from 'bcrypt';
 import {
   USERNAME_MIN_LENGTH,
   USERNAME_MIN_LENGTH_ERROR,
@@ -8,7 +8,22 @@ import {
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
 } from '@/lib/constants';
+import db from '@/lib/db';
 import { z } from 'zod';
+import getSession from '@/lib/session';
+import { redirect } from 'next/navigation';
+
+const checkEmailExists = async (email: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      email: email,
+    },
+    select: {
+      id: true,
+    },
+  });
+  return Boolean(user);
+};
 
 const formSchema = z.object({
   email: z
@@ -17,7 +32,8 @@ const formSchema = z.object({
     .toLowerCase()
     .refine((val) => val.endsWith('@zod.com'), {
       message: 'Only @zod.com emails are allowed',
-    }),
+    })
+    .refine(checkEmailExists, 'An accout with this email.'),
   username: z
     .string({ invalid_type_error: 'Username must be a string' })
     .toLowerCase()
@@ -31,7 +47,7 @@ const formSchema = z.object({
     .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
 });
 
-export async function handleForm(prevState: any, formData: FormData) {
+export async function login(prevState: any, formData: FormData) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const data = {
     email: formData.get('email'),
@@ -39,16 +55,38 @@ export async function handleForm(prevState: any, formData: FormData) {
     password: formData.get('password'),
   };
 
-  const result = formSchema.safeParse(data);
+  const result = await formSchema.spa(data);
   if (!result.success) {
     return {
       fieldErrors: result.error.flatten().fieldErrors,
       success: false,
     };
   } else {
-    return {
-      fieldErrors: {},
-      success: true,
-    };
+    const user = await db.user.findUnique({
+      where: {
+        email: result.data.email,
+      },
+      select: {
+        id: true,
+        password: true,
+      },
+    });
+    const ok = await bcrypt.compare(
+      result.data.password,
+      user!.password ?? 'xxxx'
+    );
+    console.log(ok);
+
+    if (ok) {
+      const session = await getSession();
+      session.id = user!.id;
+      await session.save();
+      redirect('/profile');
+    } else {
+      return {
+        fieldErrors: {},
+        success: true,
+      };
+    }
   }
 }

@@ -1,16 +1,15 @@
-// assignment-27
 'use client';
 
 import FormButton from '@/components/form-btn';
 import FormInput from '@/components/form-input';
 import { useFormState } from 'react-dom';
-import { handleForm } from './actions';
+import { login } from './actions';
 import { EnvelopeIcon, KeyIcon, UserIcon } from '@heroicons/react/24/solid';
 import { PASSWORD_MIN_LENGTH } from '@/lib/constants';
 import '@/lib/db';
 
 export default function Login() {
-  const [state, action] = useFormState(handleForm, null);
+  const [state, action] = useFormState(login, null);
   const success = state?.success ?? false;
 
   return (
