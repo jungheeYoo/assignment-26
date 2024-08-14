@@ -28,8 +28,8 @@ export default function Pagination({
             disabled={!hasPreviousPage}
             className={`px-3 py-1 rounded-full ${
               hasPreviousPage
-                ? 'bg-red-200 text-black'
-                : 'bg-gray-400 text-white cursor-not-allowed'
+                ? 'bg-blue-200 text-black'
+                : 'bg-gray-300 text-white cursor-not-allowed'
             }`}
           >
             &lt; Previous
@@ -40,8 +40,8 @@ export default function Pagination({
             disabled={!hasNextPage}
             className={`px-3 py-1 rounded-full ${
               hasNextPage
-                ? 'bg-red-200 text-black'
-                : 'bg-gray-400 text-white cursor-not-allowed'
+                ? 'bg-blue-200 text-black'
+                : 'bg-gray-300 text-white cursor-not-allowed'
             }`}
           >
             Next &gt;

@@ -75,7 +75,7 @@ export async function login(prevState: any, formData: FormData) {
       result.data.password,
       user!.password ?? 'xxxx'
     );
-    console.log(ok);
+    // console.log(ok);
 
     if (ok) {
       const session = await getSession();

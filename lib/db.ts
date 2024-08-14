@@ -13,7 +13,7 @@ async function test() {
       },
     },
   });
-  console.log(tweet);
+  // console.log(tweet);
 }
 
 async function like() {
@@ -31,7 +31,7 @@ async function like() {
       },
     },
   });
-  console.log(like);
+  // console.log(like);
 }
 
 async function main() {

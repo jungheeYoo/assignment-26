@@ -97,11 +97,11 @@ export async function createAccount(prevState: any, formData: FormData) {
   const result = await formSchema.safeParseAsync(data);
 
   if (!result.success) {
-    console.log(result.error.flatten());
+    // console.log(result.error.flatten());
     return result.error.flatten();
   } else {
     const hashedPassword = await bcrypt.hash(result.data.password, 12);
-    console.log(hashedPassword);
+    // console.log(hashedPassword);
 
     const user = await db.user.create({
       data: {
@@ -113,7 +113,7 @@ export async function createAccount(prevState: any, formData: FormData) {
         id: true,
       },
     });
-    console.log(user);
+    // console.log(user);
 
     const session = await getSession();
 
