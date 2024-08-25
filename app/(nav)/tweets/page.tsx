@@ -40,7 +40,7 @@ export default async function TweetsPage({
   const tweetCount = await getTweetCount();
 
   return (
-    <div className="py-8 px-6 relative">
+    <div className="py-8 px-8 relative">
       <h1 className="text-2xl font-bold mb-4">All Tweets</h1>
       <TweetList initialTweets={initialTweets} />
       <Pagination
