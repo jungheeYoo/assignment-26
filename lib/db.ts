@@ -39,6 +39,4 @@ async function main() {
   await like();
 }
 
-main();
-
 export default db;
