@@ -5,7 +5,7 @@ import { useFormStatus } from 'react-dom';
 
 interface FormButtonProps {
   text: string;
-  success: boolean;
+  success?: boolean;
 }
 
 export default function FormButton({ text, success }: FormButtonProps) {
