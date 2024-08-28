@@ -1,5 +1,3 @@
-// 파일 위치: app/(nav)/search/action.ts
-
 import db from '@/lib/db';
 
 export async function getSearchedTweet(keyword: string) {
